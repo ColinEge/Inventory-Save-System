@@ -22,8 +22,12 @@ Reads and Writes a save file in JSON based on the ```InventoryHolder``` found on
 
 ## How to set up and use:
 #### Setup:
-1. Add ```InventorySaveLoad``` to the scene on the same GameObject as a ```InventoryHolder``` 
-2. Assign it the appropriate inventory channel
+1. Move all ```InventoryItem``` ```ScriptableObject``` to ```Resources``` directory.
+
+>Defaults to ```"Assets/Resources/ScriptableObjects/Items"```
+
+2. Add ```InventorySaveLoad``` to the scene on the same GameObject as a ```InventoryHolder``` 
+3. Assign it the appropriate inventory channel
 
 #### Usage:
 1. Call ```RaiseInventoryImport()``` from the ```InventoryChannel``` ```ScriptableObject```
