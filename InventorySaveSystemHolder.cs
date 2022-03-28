@@ -36,8 +36,15 @@ public class InventorySaveSystemHolder: MonoBehaviour
             {
                 if (item.itemName != null && item.itemName != "")
                 {
-                    InventoryItem invItem = Resources.Load<InventoryItem>("ScriptableObjects/" + item.itemName);
-                    inventoryChannel.OnInventoryItemLoot(invItem, item.quantity);
+                    if (File.Exists($"{Application.dataPath}/Resources/ScriptableObjects/{item.itemName}.asset"))
+                    {
+                        InventoryItem invItem = Resources.Load<InventoryItem>("ScriptableObjects/" + item.itemName);
+                        inventoryChannel.OnInventoryItemLoot(invItem, item.quantity);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"item: {item.itemName} cannot be found in resources folder. Please ensure you store all InventoryItem objects in resources!");
+                    }
                 }
             }
         }
