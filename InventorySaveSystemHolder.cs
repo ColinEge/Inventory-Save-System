@@ -19,34 +19,18 @@ public class InventorySaveSystemHolder: MonoBehaviour
 
     public void OnInventoryExport()
     {
-        string jsonData = m_InventoryHolder.Inventory.SerialiseInventoryAsJSON();
-        string fullPath = Application.dataPath + saveName;
-        File.WriteAllText(fullPath, jsonData);
+        string fullPath = Application.dataPath + "/" + saveName;
+        File.WriteAllText(fullPath, InventoryConverterHelper.ExportInventory(m_InventoryHolder));
     }
 
     public void OnInventoryImport()
     {
-        string fullPath = Application.dataPath + saveName;
+        string fullPath = Application.dataPath + "/" + saveName;
         // if file exists
         if (File.Exists(fullPath))
         {
             string jsonData = File.ReadAllText(fullPath);
-            inventoryChannel.OnInventoryClear();
-            foreach (var item in m_InventoryHolder.Inventory.GetSlotsFromJSON(jsonData))
-            {
-                if (item.itemName != null && item.itemName != "")
-                {
-                    if (File.Exists($"{Application.dataPath}/Resources/ScriptableObjects/{item.itemName}.asset"))
-                    {
-                        InventoryItem invItem = Resources.Load<InventoryItem>("ScriptableObjects/" + item.itemName);
-                        inventoryChannel.OnInventoryItemLoot(invItem, item.quantity);
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"item: {item.itemName} cannot be found in resources folder. Please ensure you store all InventoryItem objects in resources!");
-                    }
-                }
-            }
+            InventoryConverterHelper.ImportInventory(jsonData, inventoryChannel);
         }
     }
 }

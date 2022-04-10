@@ -6,6 +6,16 @@ public class InventoryChannel : ScriptableObject
     public delegate void InventoryItemLootCallback(InventorySystem.InventoryItem item, uint quantity);
     public InventoryItemLootCallback OnInventoryItemLoot;
 
+    public delegate void InventoryClearCallback();
+    public InventoryClearCallback OnInventoryClear;
+
+    public delegate void InventoryExportCallback();
+    public InventoryExportCallback OnInventoryExport;
+
+    public delegate void InventoryImportCallback();
+    public InventoryImportCallback OnInventoryImport;
+
+
     public void RaiseLootItem(InventorySystem.InventoryItem item)
     {
         OnInventoryItemLoot?.Invoke(item, 1);
@@ -15,16 +25,6 @@ public class InventoryChannel : ScriptableObject
     {
         OnInventoryItemLoot?.Invoke(item, quantity);
     }
-
-    // <-- New Block (I'd suggest moving this up to keep it more organised)
-    public delegate void InventoryClearCallback(); 
-    public InventoryClearCallback OnInventoryClear;
-
-    public delegate void InventoryExportCallback();
-    public InventoryExportCallback OnInventoryExport;
-
-    public delegate void InventoryImportCallback();
-    public InventoryImportCallback OnInventoryImport;
 
     public void RaiseInventoryClear()
     {
@@ -40,6 +40,4 @@ public class InventoryChannel : ScriptableObject
     {
         OnInventoryImport?.Invoke();
     }
-
-    // End new Block -->
 }
